@@ -1,0 +1,3 @@
+id : #user_email
+password : #user_password
+sign in : div > section.section_email.er_r > fieldset > button
