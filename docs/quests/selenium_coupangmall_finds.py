@@ -8,9 +8,6 @@ capabilities = browser.capabilities
 # - 주소 입력
 browser.get("https://www.coupang.com/np/categories/194282")
 
-# - html 파일 받음
-html = browser.page_source
-
 # - 정보 획득
 from selenium.webdriver.common.by import By
 
