@@ -1,0 +1,10 @@
+전체: div > div.info
+#itembest_T > ul.uxb-img.first > li.first > div > div.info
+제목: em > a
+#itembest_T > ul.uxb-img.first > li.first > div > div.info > em > a
+원가: strike > span
+#itembest_T > ul.uxb-img.first > li.first > div > div.info > ul > li.c_price > span > strike > span
+가격: span.sale > span
+#itembest_T > ul.uxb-img.first > li.first > div > div.info > ul > li.d_price > span.sale > span
+배송: div.icon > div > div > span
+#itembest_T > ul.uxb-img.first > li.first > div > div.info > div.icon > div > div > span
