@@ -5,12 +5,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 webdriver_manager_directory = ChromeDriverManager().install()
+
 # ChromeDriver 실행
 browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory))
+
 # Chrome WebDriver의 capabilities 속성 사용
 capabilities = browser.capabilities
 
-# mongodb
+# mongodb 연결
 from pymongo import MongoClient
 
 def Connect_Mongo():
@@ -31,7 +33,7 @@ def ScrollHeight():
     element_body = browser.find_element(by=By.CSS_SELECTOR, value="body")
 
     previous_scrollHeight = 0
-    
+
     # while True:
     for i in range(3):  # 3번만
         element_body.send_keys(Keys.END)
@@ -73,15 +75,9 @@ def insert_db(collection):
         # db에 저장
         collection.insert_one({"user_name" : username, "score" : score, "review" : review})
 
-
-
 collection = Connect_Mongo()
 ScrollHeight()
 insert_db(collection)
 
 # 브라우저 종료
 browser.quit()
-
-# document.body.scrollHeight
-# browser.execute_script("return document.body.scrollHeight")
-# ul > div.css-13j4ly.egj9y8a4
