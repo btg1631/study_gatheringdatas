@@ -17,7 +17,7 @@ browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory), o
 capabilities = browser.capabilities
 
 # - 주소 입력
-for page_number in range(1, 7):        # page number
+for page_number in range(1, 11):        # page number
     url = "https://www.coupang.com/np/campaigns/348?page={}".format(page_number)
     browser.get(url)
     time.sleep(3)
