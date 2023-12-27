@@ -15,7 +15,7 @@ capabilities = browser.capabilities
 from pymongo import MongoClient
 mongoClient = MongoClient("mongodb://localhost:27017")
 database = mongoClient["gatheringdatas"]
-collection = database["11st_comments"]
+collection = database["11st_comments1"]
 
 # - 주소 입력
 browser.get("https://www.11st.co.kr/products/2733986352?trTypeCd=34")
@@ -37,7 +37,7 @@ while True:
 
 selector_value = "li.review_list_element"
 element_bundle = browser.find_elements(by=By.CSS_SELECTOR, value=selector_value)
-for element_item in element_bundle:
+for element_item in element_bundle[33:40]:
     # 작성자
     try:
         selector_value_username = "dt.name"
@@ -63,11 +63,14 @@ for element_item in element_bundle:
         score = "None"
     # 내용
     try:
-        selector_value_review = "div.cont_text_wrap > p"
+        browser.find_element(by=By.CSS_SELECTOR, value="button.c_product_btn.c_product_btn_more6.review-expand-open-text").click()
+        selector_value_review = "div.cont_text_wrap.active > p"
         element_review = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_review)
         review = element_review.text
     except:
-        review = "None"
+        selector_value_review = "div.cont_text_wrap > p"
+        element_review = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_review)
+        review = element_review.text
 
     # db에 저장
     collection.insert_one({"user_name" : username, "option" : option, "score" : score, "review" : review})
