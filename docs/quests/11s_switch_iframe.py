@@ -13,8 +13,6 @@ capabilities = browser.capabilities
 
 # mongodb 연결
 from pymongo import MongoClient
-
-
 mongoClient = MongoClient("mongodb://localhost:27017")
 database = mongoClient["gatheringdatas"]
 collection = database["11st_comments"]
@@ -30,8 +28,7 @@ browser.find_element(by=By.CSS_SELECTOR, value="#tabDetail > ul > li:nth-child(2
 # iframe 으로 전환
 browser.switch_to.frame("ifrmReview")
 
-# while True:
-for i in range(5):
+while True:
     try:
         browser.find_element(by=By.CSS_SELECTOR, value="#review-list-page-area > div > button").click()
     except:
@@ -48,7 +45,6 @@ for element_item in element_bundle:
         username = element_username.text
     except:
         username = "None"
-
     # 선택 옵션
     try:
         selector_value_option = "div.option > dd"
@@ -58,7 +54,6 @@ for element_item in element_bundle:
         selector_value_option = "p.option"
         element_option = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_option)
         option = element_option.text
-
     # 별점
     try:
         selector_value_score = "div > p.grade > span > em"
