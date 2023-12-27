@@ -65,14 +65,13 @@ for element_item in element_bundle:
     try:
         button = element_item.find_element(by=By.CSS_SELECTOR, value="button.c_product_btn.c_product_btn_more6.review-expand-open-text")
         button.click()  # 버튼 클릭
-        time.sleep(1)  # 페이지가 업데이트될 시간 기다림
+        time.sleep(1)
 
-        # 활성화된 리뷰 텍스트 선택자
         selector_value_review = "div.cont_text_wrap.active > p"
         element_review = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_review)
         review = element_review.text
     except:
-        # 버튼이 없는 경우의 리뷰 텍스트 선택자
+        # 버튼이 없는 경우
         selector_value_review = "div.cont_text_wrap > p"
         element_review = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_review)
         review = element_review.text
