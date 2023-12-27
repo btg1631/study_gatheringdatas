@@ -15,7 +15,7 @@ capabilities = browser.capabilities
 from pymongo import MongoClient
 mongoClient = MongoClient("mongodb://localhost:27017")
 database = mongoClient["gatheringdatas"]
-collection = database["11st_comments1"]
+collection = database["11st_comments"]
 
 # - 주소 입력
 browser.get("https://www.11st.co.kr/products/2733986352?trTypeCd=34")
