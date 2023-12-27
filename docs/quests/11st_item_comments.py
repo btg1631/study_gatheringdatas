@@ -56,20 +56,26 @@ for element_item in element_bundle[0:4]:
         price = element_price.text
     except:
         price = "None"
-    # 상품정보 상품상태
+    # 상품정보 - 상품상태
     try:
         element_state = browser.find_element(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody > tr:nth-child(1) > td:nth-child(2)")
         state = element_state.text
     except:
         state = "None"
+    # 상품정보 - 배송방법
+    try:
+        element_delivery = browser.find_element(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody > tr:nth-child(2) > td:nth-child(2)")
+        delivery = element_delivery.text
+    except:
+        delivery = "None"
 
     collection = Connectdb("11st_item")
     # db에 저장
-    element_result = collection.insert_one({"title" : title, "image" : image, "oldprice" : oldprice, "price" : price, "state" : state})
+    element_result = collection.insert_one({"title" : title, "image" : image, "oldprice" : oldprice, "price" : price, "state" : state, "delivery" : delivery})
     inserted_element_id = element_result.inserted_id
 
     # 리뷰 더보기 클릭
-    # for i in range(5):
+    # while True:
     #     try:
     #         browser.find_element(by=By.CSS_SELECTOR, value="#review-list-page-area > div > button").click()
     #     except:
