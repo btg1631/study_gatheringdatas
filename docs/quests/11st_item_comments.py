@@ -28,7 +28,7 @@ from selenium.webdriver.common.by import By
 selector_value = "div.c-card-item.c-card-item--collection.c-card-item--box > a"
 element_bundle = browser.find_elements(by=By.CSS_SELECTOR, value=selector_value)
 for element_item in element_bundle[0:4]:
-    element_item.click()
+    element_item.click()    # 상품 클릭
     time.sleep(1)
 
     # 상품 이름
@@ -138,7 +138,7 @@ for element_item in element_bundle[0:4]:
         # db에 저장
         collection.insert_one({"element_number" : number, "user_name" : username, "option" : option, "score" : score, "review" : review})
 
-    browser.back()
+    browser.back()    # 뒤로가기
     time.sleep(2)
     pass
 pass
