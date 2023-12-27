@@ -58,7 +58,7 @@ for element_item in element_bundle[0:4]:
         price = "None"
 
     rows = browser.find_elements(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody > tr")
-
+    # 상품 정보
     data = []
     for row in rows:
         # 각 행의 모든 열 가져오기
@@ -67,9 +67,10 @@ for element_item in element_bundle[0:4]:
         cols_text = [col.text for col in cols]
         data.append(cols_text)
 
-    collection = Connectdb("11st_item")
     # db에 저장
+    collection = Connectdb("11st_item")
     collection.insert_one({"element_number": data[0][1], "title" : title, "image" : image, "oldprice" : oldprice, "price" : price})
+    # "state" : data[0][0], "delivery" : data[1][1], "origin" : data[2][1]
 
 
     # 리뷰 더보기 클릭
