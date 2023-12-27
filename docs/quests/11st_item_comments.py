@@ -57,28 +57,19 @@ for element_item in element_bundle[0:4]:
     except:
         price = "None"
 
-    # 상품정보 - 상품번호
-    try:
-        element_number = browser.find_element(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody > tr:nth-child(1) > td:nth-child(4)")
-        number = element_number.text
-    except:
-        state = "None"
-    # 상품정보 - 상품상태
-    try:
-        element_state = browser.find_element(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody > tr:nth-child(1) > td:nth-child(2)")
-        state = element_state.text
-    except:
-        state = "None"
-    # 상품정보 - 배송방법
-    try:
-        element_delivery = browser.find_element(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody > tr:nth-child(2) > td:nth-child(2)")
-        delivery = element_delivery.text
-    except:
-        delivery = "None"
+    rows = browser.find_elements(by=By.CSS_SELECTOR, value="#tabpanelDetail1 > table > tbody > tr")
+
+    data = []
+    for row in rows:
+        # 각 행의 모든 열 가져오기
+        cols = row.find_elements(By.TAG_NAME, 'td')
+        # 각 열의 텍스트 정보 가져오기
+        cols_text = [col.text for col in cols]
+        data.append(cols_text)
 
     collection = Connectdb("11st_item")
     # db에 저장
-    collection.insert_one({"element_number": number, "title" : title, "image" : image, "oldprice" : oldprice, "price" : price, "state" : state, "delivery" : delivery})
+    collection.insert_one({"element_number": data[0][1], "title" : title, "image" : image, "oldprice" : oldprice, "price" : price})
 
 
     # 리뷰 더보기 클릭
@@ -136,7 +127,7 @@ for element_item in element_bundle[0:4]:
             review = element_review.text
 
         # db에 저장
-        collection.insert_one({"element_number" : number, "user_name" : username, "option" : option, "score" : score, "review" : review})
+        collection.insert_one({"element_number" : data[0][1], "user_name" : username, "option" : option, "score" : score, "review" : review})
 
     browser.back()    # 뒤로가기
     time.sleep(2)
