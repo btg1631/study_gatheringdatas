@@ -85,7 +85,7 @@ def Court():
                     back.click()
                     break
 
-collection = Connectdb("cccccourtaction")
+collection = Connectdb("courtaction")
 Court()
 
 # 브라우저 종료
