@@ -27,7 +27,6 @@ browser.get(url)
 from selenium.webdriver.common.by import By
 
 def Element(collection1, collection2):
-    element_companies = browser.find_elements(by=By.CSS_SELECTOR, value="div > a > span.best")
     for index in range(4) :
         element_companies = browser.find_elements(by=By.CSS_SELECTOR, value="div > a > span.best")
         element_companies[index].click()    # 상품 클릭
