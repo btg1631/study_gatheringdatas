@@ -24,9 +24,14 @@ def Court(coll):
 
     element_courts = browser.find_elements(by=By.CSS_SELECTOR, value="#idJiwonNm > option")
     for index in range(len(element_courts)):
+        element_courts = browser.find_elements(by=By.CSS_SELECTOR, value="#idJiwonNm > option")
         # 법원 선택
-        select_court = browser.find_element(by=By.CSS_SELECTOR, value="#idJiwonNm")
-        Select(select_court).select_by_index(index)
+        select_court = Select(browser.find_element(by=By.CSS_SELECTOR, value="#idJiwonNm"))
+        option_value = element_courts[index].get_attribute("value")
+        select_court.select_by_value(option_value)
+
+        # select_court = browser.find_element(by=By.CSS_SELECTOR, value="#idJiwonNm")
+        # Select(select_court).select_by_index(index)
         # 법원 이름 저장
         court_num = browser.find_element(by=By.CSS_SELECTOR, value="#idJiwonNm > option:nth-child({})".format(index+1))
         court = court_num.text
