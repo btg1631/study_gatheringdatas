@@ -75,7 +75,6 @@ def Court():
                 page.click()
                 time.sleep(1)
                 element_table = browser.find_elements(by=By.CSS_SELECTOR, value="form:nth-child(1) > table > tbody > tr")
-
             except:         
                 try:             # 다음 페이지
                     page = browser.find_element(by=By.CSS_SELECTOR, value="div.page2 > a:nth-child({})".format(k+1))
