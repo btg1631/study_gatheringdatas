@@ -70,13 +70,12 @@ def Element(collection1, collection2):
             data.append(cols_text)
 
         # db에 저장
-        
         try:
             element_result = collection1.insert_one({"element_number": data[0][1], "title" : title, "image" : image, "oldprice" : oldprice, "price" : price})
             element_id = element_result.inserted_id
             # "state" : data[0][0], "delivery" : data[1][1], "origin" : data[2][1]
         except:
-            element_result = collection1.insert_one({"title" : title, "image" : image, "oldprice" : oldprice, "price" : price, "Expiration_date" : data[0][0]})
+            element_result = collection1.insert_one({"element_number": "None", "title" : title, "image" : image, "oldprice" : oldprice, "price" : price, "Expiration_date" : data[0][0]})
             element_id = element_result.inserted_id
 
         # 리뷰 더보기 클릭
@@ -89,11 +88,11 @@ def Element(collection1, collection2):
 
         # iframe 으로 전환
         browser.switch_to.frame("ifrmReview")
-
+        time.sleep(2)
         # 댓글
-
         selector_value = "li.review_list_element"
         element_bundle = browser.find_elements(by=By.CSS_SELECTOR, value=selector_value)
+        time.sleep(1)
         for element_item in element_bundle[0:3]:
             # 작성자
             try:
@@ -108,9 +107,12 @@ def Element(collection1, collection2):
                 element_option = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_option)
                 option = element_option.text
             except:
-                selector_value_option = "p.option"
-                element_option = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_option)
-                option = element_option.text
+                try:
+                    selector_value_option = "p.option"
+                    element_option = element_item.find_element(by=By.CSS_SELECTOR, value=selector_value_option)
+                    option = element_option.text
+                except:
+                    option = "None"
             # 별점
             try:
                 selector_value_score = "div > p.grade > span > em"
