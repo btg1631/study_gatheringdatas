@@ -83,19 +83,19 @@ def Court_insertdata(court, element_table, coll):
         # coll.insert_one({"court" : court, "case_number" : casenumber, "case_location" : caselocation})
         print({"court" : court, "case_number" : casenumber, "case_location" : caselocation})
 
-def create_browser(link):
+def create_browser():
     webdriver_manager_directory = ChromeDriverManager().install()
     # ChromeDriver 실행
     browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory))
     # Chrome WebDriver의 capabilities 속성 사용
     capabilities = browser.capabilities
-    browser.get(link)
+    browser.get("https://www.courtauction.go.kr/")
 
     return browser, capabilities
 
 
 if __name__ == "__main__":
-    browser, capabilities = create_browser("https://www.courtauction.go.kr/")
+    browser, capabilities = create_browser()
     collection = Connectdb("courtaction")
     Court(collection)
 
