@@ -19,7 +19,6 @@ pass
 
 # - html 파일 받음(and 확인)
 html = browser.page_source
-# print(html)
 
 # - 정보 획득
 from selenium.webdriver.common.by import By
@@ -32,8 +31,8 @@ element_password_field.send_keys("*********")
 
 element_login_button = browser.find_element(by=By.CSS_SELECTOR, value="div > input.btn.btn-primary.btn-block.js-sign-in-button")
 element_login_button.click()
+
 pass
-# browser.save_screenshot('./formats.png')
 
 # 브라우저 종료
 browser.quit()
