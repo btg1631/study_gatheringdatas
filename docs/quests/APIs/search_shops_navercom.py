@@ -8,8 +8,8 @@ params = {
     "query" : "인공지능"
 }
 headers = {
-    "X-Naver-Client-Id":"kwdXpKQ167u_KCfNitrJ",
-    "X-Naver-Client-Secret":"n84XwGnzIV"
+    "X-Naver-Client-Id":"2QSWA6M64rRK6xqbwmfZ",
+    "X-Naver-Client-Secret":"ofRjlO0Evx"
 }
 response = requests.get(url=url, params=params, headers=headers)
 

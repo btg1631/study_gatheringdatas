@@ -5,8 +5,8 @@ import requests     # postman app 역할
 #  request API 요청
 url = "https://openapi.naver.com/v1/search/news"
 params = {'query':'인공지능'}
-headers = {'X-Naver-Client-Id':'qQBxcjo68I_u39QS_koP'
-           , 'X-Naver-Client-Secret':"ISq_J8IyEt"}
+headers = {'X-Naver-Client-Id':'2QSWA6M64rRK6xqbwmfZ'
+           , 'X-Naver-Client-Secret':"ofRjlO0Evx"}
 
 response = requests.get(url, params=params, headers=headers)
 
