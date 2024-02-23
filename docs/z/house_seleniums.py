@@ -12,6 +12,12 @@ browser = webdriver.Chrome(service=ChromeService(webdriver_manager_directory))
 # Chrome WebDriver의 capabilities 속성 사용
 capabilities = browser.capabilities
 
+# mongodb 연결
+from pymongo import MongoClient
+mongoClient = MongoClient("mongodb://192.168.10.10:27017")
+database = mongoClient["project_coliving"]
+collection = database["gatheringdatas"]
+
 # - 주소 입력
 browser.get("https://dgdr.co.kr/branch/index.html")
 
@@ -33,25 +39,30 @@ for element_item in element_bundle:
     except: 
         title = "None"
 
-
-
-    # 지역은 역 이름으로 뽑아!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # 지역(region)   div.map-desc > div:nth-child(1) > div
     try:
         selector_value_region = "div.map-desc > div:nth-child(1) > div"
         element_region = browser.find_element(by=By.CSS_SELECTOR, value=selector_value_region)
         region = element_region.text
+        words = region.split()
+        for word in words:
+            if '역' in word:
+                if word == '역세권':
+                    continue  # '역세권'이라면 다음 단어를 찾습니다.
+                else:
+                    region = word  # '역세권'이 아니라면 단어를 저장하고 루프를 종료합니다.
+                    break
     except: 
         region = "None"
 
     # 회사(회사가 아니면 일반사업자 - brandType)   #contents > h1
     try:
-        brandType = "None"
+        brandType = "일반사업자"
     except: 
         brandType = "None"
 
     # url
-
+    now_url = browser.current_url
 
     # 옵션(roomOption)   div:nth-child(1) > div > div.desc
     try:
@@ -125,8 +136,8 @@ for element_item in element_bundle:
         except: 
             rentFee = "None"
 
-        print("title : {}, roomName : {}, gender : {}, roomType : {}, py : {}, deposit : {}, rentFee : {}, region : {}, brandType : {}, roomOption : {}, url : {}, imgUrl : {}".format(title, roomName, gender, roomType, py, deposit, rentFee, region, brandType, roomOption, imgUrl, imgUrl))
-
+        print("title : {}, roomName : {}, gender : {}, roomType : {}, py : {}, deposit : {}, rentFee : {}, region : {}, brandType : {}, roomOption : {}, url : {}, imgUrl : {}".format(title, roomName, gender, roomType, py, deposit, rentFee, region, brandType, roomOption, now_url, imgUrl))
+        collection.insert_one({"title" : title, "roomName" : roomName, "gender" : gender, "roomType" : roomType, "py" : py, "deposit" : deposit, "rentFee" : rentFee, "region" : region, "brandType" : brandType, "roomOption" : roomOption, "url" : now_url, "imgUrl" : imgUrl})
 
     browser.back()
     time.sleep(2)
