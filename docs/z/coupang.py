@@ -60,7 +60,7 @@ buttons = pagination_container.find_elements(By.TAG_NAME, 'button')
 
 while True:
     try:
-        for j in range(2, 12):  # 버튼은 2부터 11까지 존재
+        for j in range(2, 12): 
             # 상품평 전체 section.js_reviewArticleListContainer > article
             element_bundle_review = browser.find_elements(By.CSS_SELECTOR, value="section.js_reviewArticleListContainer > article")
             for i in element_bundle_review:
