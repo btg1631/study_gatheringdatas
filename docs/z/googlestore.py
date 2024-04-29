@@ -29,6 +29,15 @@ def get_data(database_name,url):
     browser.find_element(by=By.CSS_SELECTOR, value=selector_element).click()
     time.sleep(2)
 
+    # 선택 #formFactor_2 > div.kW9Bj > i   //// div.JPdR6b.e5Emjc.CblTmf.ah7Sve.qjTEB > div > div > span:nth-child(2)
+    selector_element = "#formFactor_2 > div.kW9Bj > i"
+    browser.find_element(by=By.CSS_SELECTOR, value=selector_element).click()
+    time.sleep(2)
+
+    selector_element = "div.JPdR6b.e5Emjc.CblTmf.ah7Sve.qjTEB > div > div > span:nth-child(2)"
+    browser.find_element(by=By.CSS_SELECTOR, value=selector_element).click()
+    time.sleep(2)
+    
     # - 정보 획득
     # 댓글 모달 확인 : (css overflow:scroll or auto) div.fysCi
     selector_element = "div.fysCi"
