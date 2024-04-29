@@ -5,6 +5,7 @@ def get_data(database_name,url):
     from webdriver_manager.chrome import ChromeDriverManager
     from selenium.webdriver.common.by import By
     import time
+    import re
 
     webdriver_manager_directory = ChromeDriverManager().install()
     # ChromeDriver 실행
@@ -13,38 +14,29 @@ def get_data(database_name,url):
     capabilities = browser.capabilities
 
 
-
     # mongodb 연결
     from pymongo import MongoClient
-    mongoClient = MongoClient("mongodb://localhost:27017")
-    database = mongoClient["local"]
-    collection = database[database_name]
+    mongoClient = MongoClient("mongodb://192.168.10.240:27017")
+    database = mongoClient["AI_LKJ"]
+    collection = database['TRAVEL_APPLICATION']
 
     # - 주소 입력
     browser.get(url)
-
-
+    time.sleep(2)
 
     # 모달 화면 띄우기 : 리뷰 모두 보기 클릭
     selector_element = "#yDmH0d > c-wiz.SSPGKf.Czez9d > div > div > div:nth-child(1) > div > div.wkMJlb.YWi3ub > div > div.qZmL0 > div:nth-child(1) > c-wiz:nth-child(4) > section > div > div.Jwxk6d > div:nth-child(5) > div > div > button"
     browser.find_element(by=By.CSS_SELECTOR, value=selector_element).click()
+    time.sleep(2)
 
     # - 정보 획득
     # 댓글 모달 확인 : (css overflow:scroll or auto) div.fysCi
     selector_element = "div.fysCi"
     element_scrollableDiv = browser.find_element(by=By.CSS_SELECTOR, value=selector_element)
 
-    # 댓글 개수 확인 : div.RHo1pe
-    selector_element = "div.RHo1pe"
-    elements_comment = browser.find_elements(by=By.CSS_SELECTOR, value=selector_element)
-    print("count comment before done scroll : {}".format(len(elements_comment)))
-
-    # 댓글 마지막까지 스크롤  : scrollHeight 확인
-    # - var scrollableDiv = document.querySelector('div.fysCi');
-    # - scrollableDiv.scrollHeight
-    # - scrollableDiv.scrollTo(0, scrollableDiv.scrollHeight);
     previous_scrollHeight = 0
     while True:
+    #for i in range(10):
         # python 방식 변수 매칭
         # print("{0}.scrollTo({1}, {0}.scrollHeight);".format(element_scrollableDiv, previous_scrollHeight))
         
@@ -56,7 +48,7 @@ def get_data(database_name,url):
             break
         else:
             previous_scrollHeight = current_scrollHeight
-        time.sleep(2)
+        time.sleep(1)
         pass
 
     # 댓글 개수 확인 : div.RHo1pe
@@ -82,6 +74,7 @@ def get_data(database_name,url):
             
             pattern = "별표 5개 만점에 ([0-9]+)개를 받았습니다."
             user_score = re.search(pattern, aria_label)
+            user_score = user_score.group(1)
         except:
             user_score = ""
 
@@ -104,14 +97,14 @@ def get_data(database_name,url):
 
             pattern = "사용자 ([0-9]+)명이 이 리뷰가 유용하다고 평가함"
             evaluation = re.search(pattern, evaluation)
+            evaluation = evaluation.group(1)
 
         except:
             evaluation = ""
 
-        print("user_name:{}, user_score:{}, user_date:{}, user_comments:{}, evaluation:{}".format(user_name, user_score.group(1), user_date, user_comments, evaluation.group(1)))
-
-
-    # ---------------------------------------------------------------------------
+        # MongoDB에 저장
+        collection.insert_one({"app_name": database_name, "user_score": user_score, "user_date": user_date, "user_comments": user_comments, "evaluation": evaluation})
+        #print("app_name:{}, user_score:{}, user_date:{}, user_comments:{}, evaluation:{}".format(database_name, user_score, user_date, user_comments, evaluation))
 
     pass
 
